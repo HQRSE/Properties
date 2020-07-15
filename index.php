@@ -18,19 +18,19 @@ foreach ($content as $line) { // читаем построчно
 $properties[] = explode (',', $line); // разбиваем строку и записываем в массив
 }
 
-echo "<pre>";
-print_r($properties);
-echo "</pre>";
-
 /* Let's GO! *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 $all_lines = count($properties);
 $end = $all_lines;
-$step = 2;
+$step = 1;
 
+$i = 0;
+
+while ($i < $end) {
+echo "current property code: ".$properties[$i][0]."<br>";
 /* Характеристики гладкоствольное оружие */
-$code = 							$properties[$counter][0];  // Код товара
-$manufacturer_value = 				$properties[$counter][1];  // Производитель
+$code = 							$properties[$i][0];  // Код товара
+$manufacturer_value = 				$properties[$i][1];  // Производитель
 $kalibr_value = 					$properties[$counter][2];  // Калибр 
 $material_priklada_value = 			$properties[$counter][3];  // Материал приклада (ложи) 
 $material_tsevya_value = 			$properties[$counter][4];  // Материал цевья
@@ -56,9 +56,7 @@ $kluch_value = 						$properties[$counter][23]; // Ключ
 $maslo_value = 						$properties[$counter][24]; // Масло оружейное
 $vstavki_priklad_value = 			$properties[$counter][25]; // Вставки в приклад (для регулировки наклона приклада)
 $antabki_value = 					$properties[$counter][26]; // Антабки
-$garantiya_value = 					$properties[$counter][27]; // Гарантия
-
-while ($counter < $end) {
+$garantiya_value = 					$properties[$i][27]; // Гарантия
 
 /* Получаем ID товара, зная его код */
 $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property WHERE VALUE='$code' AND DESCRIPTION='Код'");
@@ -67,7 +65,7 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 
 		$res = CIBlockElement::GetList(array(), array('IBLOCK_ID' => $iblock, 'ACTIVE'=>'', 'ID' => $row['IBLOCK_ELEMENT_ID'], 'SITE_ID' => "s1"));
         $item = $res->Fetch();
-		//echo $row['IBLOCK_ELEMENT_ID']."<br>"; // Здесь работает
+		echo "ID ==> ".$row['IBLOCK_ELEMENT_ID']."<br>"; // Здесь работает
 		$p_id = $item['ID'];
 
 		/* Символьные коды характеристик гладкоствольное оружие */
@@ -261,17 +259,24 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 
 	}
 
-	$break = $counter % $step;
+	/*$break = $counter % $step;
 
-/*if ($break == 0) {
-		$counter++;
+if ($break == 0) {
+	$counter++;
 		header("refresh: 2; url=/12dev/properties/index.php?counter=$counter"); // default: $counter = 0;
 		break;
 } */
 
-$counter++;
+	//$counter++;
+$i++;
 
 	}
+
+
+echo "<pre>";
+print_r($properties);
+echo "</pre>";
+
 
 ?>
 
