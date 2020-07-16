@@ -97,7 +97,7 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 		$garantiya_code = "REAL_GARANTIYA";
 
 		/* Значения списка свойства Калибр (икс и хэ) */
-		$property_enums_kalibr = CIBlockPropertyEnum::GetList(Array("ID"=>"ASC", "SORT"=>"ASC"), Array("IBLOCK_ID"=>$iblock, "CODE"=>"KALIBR_2"));
+		$property_enums_kalibr = CIBlockPropertyEnum::GetList(Array("ID"=>"ASC", "SORT"=>"ASC"), Array("IBLOCK_ID"=>$iblock, "CODE"=>$kalibr_code));
 		while ($enum_fields_kalibr = $property_enums_kalibr->GetNext()) {
 			if (strtolower($enum_fields_kalibr["VALUE"]) === strtolower($kalibr_value)) {
 				$kalibr_id_value = $enum_fields_kalibr["ID"];
