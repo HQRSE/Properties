@@ -8,7 +8,6 @@ $APPLICATION->SetTitle("Properties");
 <?
 
 $counter = $_GET['counter']; // start counter = 0
-echo "current array: ".$counter."<br>";
 
 $fileName = 'https://ohotaktiv.ru/12dev/properties/gtxt.txt'; //gladkostvolnoe.csv';
 $iblock = 10;
@@ -27,6 +26,7 @@ $step = 1;
 $i = 0;
 
 while ($i < $end) {
+echo "current array: ".$i."<br>";
 echo "current property code: ".$properties[$i][0]."<br>";
 /* Характеристики гладкоствольное оружие */
 $code = 							$properties[$i][0];  // Код товара
@@ -63,10 +63,11 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 
 	while ($row = $results->Fetch()) {
 
-		$res = CIBlockElement::GetList(array(), array('IBLOCK_ID' => $iblock, 'ACTIVE'=>'', 'ID' => $row['IBLOCK_ELEMENT_ID'], 'SITE_ID' => "s1"));
-        $item = $res->Fetch();
-		echo "ID ==> ".$row['IBLOCK_ELEMENT_ID']."<br>"; // Здесь работает
+		$res = CIBlockElement::GetList(array(), array('IBLOCK_ID' => $iblock, 'ACTIVE'=>'Y', 'ID' => $row['IBLOCK_ELEMENT_ID'], 'SITE_ID' => "s1"));
+		if ($item = $res->Fetch()) {
+		//echo "ID ==> ".$row['IBLOCK_ELEMENT_ID']."<br>"; // Здесь работает
 		$p_id = $item['ID'];
+		echo "p_id: ".$p_id."<br>";
 
 		/* Символьные коды характеристик гладкоствольное оружие */
 		$manufacturer_code = "REAL_MANUFACTURER";
@@ -256,7 +257,7 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 		$antabki_code => 					$antabki_id_value,
 		$garantiya_code => 					$garantiya_id_value
 		));
-
+		}
 	}
 
 	/*$break = $counter % $step;
