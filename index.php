@@ -14,18 +14,19 @@ $iblock = 10;
 $content = file ($fileName);
 
 foreach ($content as $line) { // читаем построчно
-$properties[] = explode (',', $line); // разбиваем строку и записываем в массив
+$properties[] = explode ('@', $line); // разбиваем строку и записываем в массив
 }
 
 /* Let's GO! *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 
 $all_lines = count($properties);
 $end = $all_lines;
-$step = 2;
+$step = 5;
 
 while ($counter < $end) {
 echo "current array: ".$counter."<br>";
 echo "current property code: ".$properties[$i][0]."<br>";
+
 /* Характеристики гладкоствольное оружие */
 $code = 							$properties[$counter][0];  // Код товара
 $manufacturer_value = 				$properties[$counter][1];  // Производитель
@@ -55,6 +56,8 @@ $maslo_value = 						$properties[$counter][24]; // Масло оружейное
 $vstavki_priklad_value = 			$properties[$counter][25]; // Вставки в приклад (для регулировки наклона приклада)
 $antabki_value = 					$properties[$counter][26]; // Антабки
 $garantiya_value = 					$properties[$counter][27]; // Гарантия
+
+	echo $code."<--- <br>";
 
 /* Получаем ID товара, зная его код */
 $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property WHERE VALUE='$code' AND DESCRIPTION='Код'");
