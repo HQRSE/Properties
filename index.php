@@ -7,7 +7,8 @@ $APPLICATION->SetTitle("Properties");
 
 <?
 
-$counter = $_GET['counter']; // start counter = 0
+$counter = 0; // $_GET['counter']; // start counter = 0 // counter item
+$section = $_GET['section']; // section code
 
 $fileName = 'https://ohotaktiv.ru/12dev/properties/gtxt.txt'; //gladkostvolnoe.csv';
 $iblock = 10;
@@ -22,10 +23,63 @@ $properties[] = explode ('@', $line); // разбиваем строку и за
 $all_lines = count($properties);
 $end = $all_lines;
 $step = 5;
+/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+$i = 0;
+$j = 0;
+$properties_perem = array (
+'code',
+'manufacturer_value',
+'kalibr_value',
+'material_priklada_value',
+'material_tsevya_value',
+'material_stvola_value',
+'color_value',
+'weight_value',
+'emkost_magazina_value',
+'tip_magazina_value',
+'kolichestvo_stvolov_value',
+'raspolojenie_stvolov_value',
+'printsip_deystviya_value',
+'dlina_stvola_value',
+'obshaya_dlina_value',
+'komplektatsiya_value',
+'nabor_iz_smennykh_chokov_value',
+'chok_value',
+'poluchok_value',
+'tsilindr_value',
+'slaby_poluchok_value',
+'sredny_chok_value',
+'keys_value',
+'kluch_value',
+'maslo_value',
+'vstavki_priklad_value',
+'antabki_value',
+'garantiya_value'
+);
 
+$end_c = count($properties[$counter]);
+$end_p = count($properties_perem);
+
+$zaliv = [];
+
+while ($i < $end_c && $j < $end_p) {
+
+//$glad = array ($properties_perem[$j] => $properties[$counter][$i]);
+//echo "j: ".$j." ".$properties_perem[$j]." - i: ".$i." ".$properties[$counter][$i]."<br>";
+
+$zaliv[] = [$properties_perem[$j] => $properties[$counter][$i]];
+
+$i++;
+$j++;
+
+}
+print_r($zaliv);
+//print_r($glad);
+//echo $properties;
+/* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
 while ($counter < $end) {
 echo "current array: ".$counter."<br>";
-echo "current property code: ".$properties[$i][0]."<br>";
+echo "current property code: ".$properties[$counter][0]."<br>";
 
 /* Характеристики гладкоствольное оружие */
 $code = 							$properties[$counter][0];  // Код товара
@@ -57,10 +111,10 @@ $vstavki_priklad_value = 			$properties[$counter][25]; // Вставки в пр
 $antabki_value = 					$properties[$counter][26]; // Антабки
 $garantiya_value = 					$properties[$counter][27]; // Гарантия
 
-	echo $code."<--- <br>";
+//echo $code."<--- <br>";
 
 /* Получаем ID товара, зная его код */
-$results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property WHERE VALUE='$code' AND DESCRIPTION='Код'");
+	//$results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property WHERE VALUE='$code' AND DESCRIPTION='Код'");
 
 	while ($row = $results->Fetch()) {
 
@@ -229,7 +283,7 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 		}
 
 		// Новые значения свойств элемента
-		CIBlockElement::SetPropertyValuesEx($p_id, false, array(
+			/*CIBlockElement::SetPropertyValuesEx($p_id, false, array(
 		$manufacturer_code => 				$manufacturer_value, 
 		$kalibr_code => 					$kalibr_id_value,
 		$material_priklada_code => 			$material_priklada_id_value,
@@ -257,28 +311,28 @@ $results = $DB->Query("SELECT IBLOCK_ELEMENT_ID FROM b_iblock_element_property W
 		$vstavki_priklad_code => 			$vstavki_priklad_id_value,
 		$antabki_code => 					$antabki_id_value,
 		$garantiya_code => 					$garantiya_id_value
-		));
+));*/
 		}
 	}
 
 	$break = $counter % $step;
 
-if ($break == 0) {
+	/*if ($break == 0) {
 	$counter++;
 		header("refresh: 2; url=/12dev/properties/index.php?counter=$counter"); // default: $counter = 0;
 		break;
-} 
+} */
 
 	$counter++;
 
 
 	}
 
-
+/*
 echo "<pre>";
 print_r($properties);
 echo "</pre>";
-
+*/
 
 ?>
 
