@@ -75,19 +75,26 @@ while ($counter < $end) { // Перебор массивов Properties[]
 			//echo "section: ".$section."<br>";
 			/* *** */
 	foreach ($zaliv as $key=>$value) { // Пара: ключ - значение из zaliv[]
-		echo $key." - ".$value."<br>";
+		//echo $key." - ".$value."<br>";
 			foreach ($prop_category as $prop_code) {
 				/* Значения свойства типа список */
 				$property_enums = CIBlockPropertyEnum::GetList(Array("ID"=>"ASC", "SORT"=>"ASC"), Array("IBLOCK_ID"=>$iblock, "CODE"=>$prop_code));
-				while ($enum_fields = $property_enums->GetNext()) {
-					//echo "enum_fields value: ".$enum_fields["VALUE"]."<br>";
-					if (strtolower($enum_fields["VALUE"]) === strtolower($value)) {
-						$id_value = $enum_fields["ID"];
-						//echo "id value: ".$id_value."<br>";
-						CIBlockElement::SetPropertyValuesEx($p_id, false, array(
-							$prop_code => $id_value 
-						));
+				if ($property_enums) {
+					while ($enum_fields = $property_enums->GetNext()) {
+						//echo "enum_fields value: ".$enum_fields["VALUE"]."<br>";
+						if (strtolower($enum_fields["VALUE"]) === strtolower($value)) {
+							$id_value = $enum_fields["ID"];
+							//echo "id value: ".$id_value."<br>";
+							CIBlockElement::SetPropertyValuesEx($p_id, false, array(
+								$prop_code => $id_value 
+							));
+						}
 					}
+				} else {
+					/* Остальные свойства не работает почему-то */
+					CIBlockElement::SetPropertyValuesEx($p_id, false, array(
+					$prop_code => $value 
+					));
 				}
 			}
 	}
